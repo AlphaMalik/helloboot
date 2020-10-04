@@ -23,7 +23,7 @@ public class HelloBootController {
     }
     
     @GetMapping("/loadfile")
-    public String loadfile() {
+    public String loadfile() throws Exception {
         Properties properties = new Properties();
 		InputStream inputStream = new FileInputStream("/config/test.properties");
 		try {

@@ -15,5 +15,11 @@ public class HelloBootController {
         String resp = String.format("%s from %s", prefix, System.getenv().getOrDefault("HOSTNAME", "localhost"));
         return resp;
     }
+    
+    @GetMapping("/loadfile")
+    public String loadfile() {
+        InputStream in = this.getClass().getClassLoader().getResourceAsStream("test.properties");
+        
+    }
 
 }

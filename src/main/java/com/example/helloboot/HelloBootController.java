@@ -19,7 +19,7 @@ public class HelloBootController {
     @GetMapping("/loadfile")
     public String loadfile() {
         InputStream in = this.getClass().getClassLoader().getResourceAsStream("test.properties");
-        
+        return "Found File";        
     }
 
 }

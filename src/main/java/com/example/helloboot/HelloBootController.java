@@ -3,6 +3,12 @@ package com.example.helloboot;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.Properties;
 
 /**
  * @author kameshs
@@ -18,11 +24,20 @@ public class HelloBootController {
     
     @GetMapping("/loadfile")
     public String loadfile() {
-        InputStream in = this.getClass().getClassLoader().getResourceAsStream("test.properties");
-        
-        Properties props = properties.load(in);
-        
-        return props.getProperty("test");        
+        Properties properties = new Properties();
+		InputStream inputStream = new FileInputStream("/config/test.properties");
+		try {
+			Reader reader = new InputStreamReader(inputStream, "UTF-8");
+			try {
+				properties.load(reader);
+			} finally {
+				reader.close();
+			}
+		} finally {
+			inputStream.close();
+		} 
+		
+		return properties.getProperty("test");        
     }
 
 }

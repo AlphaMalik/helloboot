@@ -56,8 +56,14 @@ public class HelloBootController {
         Connection connection = null;
       InitialContext initialContext = null;
       try {
+          Properties jndiProps = new Properties();
+          jndiProps.put("java.naming.factory.initial","org.apache.activemq.artemis.jndi.ActiveMQInitialContextFactory");
+          jndiProps.put("connectionFactory.ConnectionFactory","tcp://ex-aao-hdls-svc.amq.svc.cluster.local:61616?sslEnabled=false");
+          jndiProps.put("queue.queue/exampleQueue","anisnotifications");
+
+          
          // Step 1. Create an initial context to perform the JNDI lookup.
-         initialContext = new InitialContext();
+         initialContext = new InitialContext(jndiProps);
          
          // Step 2. Perform a lookup on the queue
          Queue queue = (Queue) initialContext.lookup("queue/exampleQueue");

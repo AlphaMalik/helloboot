@@ -90,15 +90,15 @@ public class HelloBootController {
          producer.send(message);
 
          // Step 9. Create a JMS Message Consumer
-         MessageConsumer messageConsumer = session.createConsumer(queue);
+         //MessageConsumer messageConsumer = session.createConsumer(queue);
 
          // Step 10. Start the Connection
-         connection.start();
+         //connection.start();
 
          // Step 11. Receive the message
-         TextMessage messageReceived = (TextMessage) messageConsumer.receive(5000);
+         //TextMessage messageReceived = (TextMessage) messageConsumer.receive(5000);
 
-         System.out.println("Received message: " + messageReceived.getText());
+         //System.out.println("Received message: " + messageReceived.getText());
       } finally {
          // Step 12. Be sure to close our JMS resources!
          if (initialContext != null) {

@@ -141,7 +141,8 @@ public class HelloBootController {
          // Step 11. Receive the message
          TextMessage messageReceived = (TextMessage) messageConsumer.receive(5000);
 
-         //System.out.println("Received message: " + messageReceived.getText());
+         System.out.println("Received message: " + messageReceived.getText());
+         responseFromActiveMQ = messageReceived.getText();
       } finally {
          // Step 12. Be sure to close our JMS resources!
          if (initialContext != null) {

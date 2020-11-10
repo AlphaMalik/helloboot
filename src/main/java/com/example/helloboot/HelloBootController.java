@@ -18,6 +18,8 @@ import javax.jms.Queue;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 import javax.naming.InitialContext;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author kameshs
@@ -51,8 +53,8 @@ public class HelloBootController {
     }
     
     
-    @GetMapping("/testactivemq")
-    public String testactivemq() throws Exception {
+    @GetMapping("/testactivemqsend")
+    public String testactivemqsend() throws Exception {
         Connection connection = null;
       InitialContext initialContext = null;
       try {
@@ -82,21 +84,62 @@ public class HelloBootController {
          MessageProducer producer = session.createProducer(queue);
 
          // Step 7. Create a Text Message
-         TextMessage message = session.createTextMessage("This is a text message");
+         TextMessage message = session.createTextMessage("Message created at " + new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()));
 
          System.out.println("Sent message: " + message.getText());
 
          // Step 8. Send the Message
          producer.send(message);
 
+          } finally {
+         // Step 12. Be sure to close our JMS resources!
+         if (initialContext != null) {
+            initialContext.close();
+         }
+         if (connection != null) {
+            connection.close();
+         }
+      }
+		
+		return "successfully tested";        
+    }
+    
+    
+    @GetMapping("/testactivemqconsume")
+    public String testactivemqconsume() throws Exception {
+        String responseFromActiveMQ = "Default message";
+        Connection connection = null;
+      InitialContext initialContext = null;
+      try {
+          Properties jndiProps = new Properties();
+          jndiProps.put("java.naming.factory.initial","org.apache.activemq.artemis.jndi.ActiveMQInitialContextFactory");
+          jndiProps.put("connectionFactory.ConnectionFactory","tcp://172.28.134.60:30616?sslEnabled=false");
+          jndiProps.put("queue.queue/exampleQueue","anisnotifications");
+
+          
+         // Step 1. Create an initial context to perform the JNDI lookup.
+         initialContext = new InitialContext(jndiProps);
+         
+         // Step 2. Perform a lookup on the queue
+         Queue queue = (Queue) initialContext.lookup("queue/exampleQueue");
+         
+         // Step 3. Perform a lookup on the Connection Factory
+         ConnectionFactory cf = (ConnectionFactory) initialContext.lookup("ConnectionFactory");
+
+         // Step 4.Create a JMS Connection
+         connection = cf.createConnection();
+
+         // Step 5. Create a JMS Session
+         Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+
          // Step 9. Create a JMS Message Consumer
-         //MessageConsumer messageConsumer = session.createConsumer(queue);
+         MessageConsumer messageConsumer = session.createConsumer(queue);
 
          // Step 10. Start the Connection
-         //connection.start();
+         connection.start();
 
          // Step 11. Receive the message
-         //TextMessage messageReceived = (TextMessage) messageConsumer.receive(5000);
+         TextMessage messageReceived = (TextMessage) messageConsumer.receive(5000);
 
          //System.out.println("Received message: " + messageReceived.getText());
       } finally {
@@ -109,7 +152,7 @@ public class HelloBootController {
          }
       }
 		
-		return "successfully tested";        
+		return responseFromActiveMQ;        
     }
 
 }

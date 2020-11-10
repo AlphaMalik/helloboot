@@ -58,7 +58,7 @@ public class HelloBootController {
       try {
           Properties jndiProps = new Properties();
           jndiProps.put("java.naming.factory.initial","org.apache.activemq.artemis.jndi.ActiveMQInitialContextFactory");
-          jndiProps.put("connectionFactory.ConnectionFactory","tcp://broker-amq-tcp.amq-demo.svc.cluster.local:61616?sslEnabled=false");
+          jndiProps.put("connectionFactory.ConnectionFactory","tcp://172.28.134.60:30616?sslEnabled=false");
           jndiProps.put("queue.queue/exampleQueue","anisnotifications");
 
           

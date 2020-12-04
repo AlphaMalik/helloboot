@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @RestController
 public class HelloBootController {
 
-    @CrossOrigin
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/whereami")
     public String whereami(@Value("${message.prefix}") String prefix) {
         String resp = String.format("%s from %s", prefix, System.getenv().getOrDefault("HOSTNAME", "localhost"));

@@ -20,6 +20,7 @@ import javax.jms.TextMessage;
 import javax.naming.InitialContext;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 /**
  * @author kameshs
@@ -27,6 +28,7 @@ import java.util.Date;
 @RestController
 public class HelloBootController {
 
+    @CrossOrigin
     @GetMapping("/whereami")
     public String whereami(@Value("${message.prefix}") String prefix) {
         String resp = String.format("%s from %s", prefix, System.getenv().getOrDefault("HOSTNAME", "localhost"));

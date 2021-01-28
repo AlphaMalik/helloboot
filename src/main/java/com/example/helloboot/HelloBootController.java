@@ -54,6 +54,43 @@ public class HelloBootController {
 		return properties.getProperty("test");        
     }
     
+    public String executeSuccessfulCall() throws Exception {
+        String result = "";
+        HttpClientBuilder hcBuilder = HttpClients.custom();
+        
+        HttpHost proxy = new HttpHost(System.getProperty("http.proxyHost"), Integer.parseInt(System.getProperty("http.proxyPort")), "http");
+        DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
+        hcBuilder.setRoutePlanner(routePlanner);
+
+        CloseableHttpClient httpClient = hcBuilder.build();
+
+        try {
+
+            HttpGet request = new HttpGet("https://geoproteranetapi.azurewebsites.net/token");
+            CloseableHttpResponse response = httpClient.execute(request);
+
+            try {
+
+                // Get HttpResponse Status
+                System.out.println(response.getStatusLine().getStatusCode());   // 200
+
+                HttpEntity entity = response.getEntity();
+                if (entity != null) {
+                    // return it as a String
+                    result = EntityUtils.toString(entity);
+                    System.out.println(result);
+                }
+
+            } finally {
+                response.close();
+            }
+        } finally {
+            httpClient.close();
+        }
+        
+        return result;
+	}
+    
     
     @GetMapping("/testactivemqsend")
     public String testactivemqsend() throws Exception {

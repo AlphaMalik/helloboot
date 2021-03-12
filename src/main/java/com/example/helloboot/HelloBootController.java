@@ -21,6 +21,15 @@ import javax.naming.InitialContext;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
+import org.apache.http.util.EntityUtils;
 
 /**
  * @author kameshs

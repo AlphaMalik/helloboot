@@ -67,7 +67,7 @@ public class HelloBootController {
 
         try {
 
-            HttpGet request = new HttpGet("http://www.recipepuppy.com/api/?i=onions,garlic&q=omelet&p=3);
+            HttpGet request = new HttpGet("http://www.recipepuppy.com/api/?i=onions,garlic&q=omelet&p=3");
             CloseableHttpResponse response = httpClient.execute(request);
 
             try {

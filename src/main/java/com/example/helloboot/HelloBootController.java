@@ -68,7 +68,7 @@ public class HelloBootController {
         String result = "";
         HttpClientBuilder hcBuilder = HttpClients.custom();
         
-        HttpHost proxy = new HttpHost(System.getProperty("http.proxyHost"), Integer.parseInt(System.getProperty("http.proxyPort")), "http");
+        HttpHost proxy = new HttpHost(System.getenv("http.proxyHost"), Integer.parseInt(System.getenv("http.proxyPort")), "http");
         DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
         hcBuilder.setRoutePlanner(routePlanner);
 

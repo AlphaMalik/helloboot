@@ -54,6 +54,7 @@ public class HelloBootController {
 		return properties.getProperty("test");        
     }
     
+    @GetMapping("/testInternetConnection")
     public String executeSuccessfulCall() throws Exception {
         String result = "";
         HttpClientBuilder hcBuilder = HttpClients.custom();
@@ -66,7 +67,7 @@ public class HelloBootController {
 
         try {
 
-            HttpGet request = new HttpGet("https://geoproteranetapi.azurewebsites.net/token");
+            HttpGet request = new HttpGet("http://www.recipepuppy.com/api/?i=onions,garlic&q=omelet&p=3);
             CloseableHttpResponse response = httpClient.execute(request);
 
             try {

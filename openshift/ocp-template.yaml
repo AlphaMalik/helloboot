@@ -3,7 +3,7 @@ kind: Template
 metadata:
   annotations:
     description: DEV Template for PINService - BuildConfig, DeploymentConfig, Services, Route, Configmaps
-  name: pinservice-dev-template
+  name: ansible-aro-template
 objects:
 - apiVersion: v1
   kind: BuildConfig

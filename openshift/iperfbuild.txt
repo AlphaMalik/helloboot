@@ -1,0 +1,74 @@
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: iperf
+  namespace: anis-malik-sandbox
+  selfLink: /apis/build.openshift.io/v1/namespaces/anis-malik-sandbox/buildconfigs/iperf
+  uid: 7f71fc82-62be-453f-a642-75d799d2a3a2
+  resourceVersion: '6912994'
+  creationTimestamp: '2021-03-09T18:00:47Z'
+  managedFields:
+    - manager: Mozilla
+      operation: Update
+      apiVersion: build.openshift.io/v1
+      time: '2021-03-09T18:00:47Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:spec':
+          'f:failedBuildsHistoryLimit': {}
+          'f:output':
+            'f:to':
+              .: {}
+              'f:kind': {}
+              'f:name': {}
+          'f:runPolicy': {}
+          'f:source':
+            'f:dockerfile': {}
+            'f:type': {}
+          'f:strategy':
+            'f:dockerStrategy':
+              .: {}
+              'f:pullSecret':
+                .: {}
+                'f:name': {}
+            'f:type': {}
+          'f:successfulBuildsHistoryLimit': {}
+    - manager: openshift-apiserver
+      operation: Update
+      apiVersion: build.openshift.io/v1
+      time: '2021-03-09T18:13:27Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:status':
+          'f:lastVersion': {}
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'iperf:latest'
+  resources: {}
+  successfulBuildsHistoryLimit: 5
+  failedBuildsHistoryLimit: 5
+  strategy:
+    type: Docker
+    dockerStrategy:
+      pullSecret:
+        name: whitelisted-base-image-puller
+  postCommit: {}
+  source:
+    type: Dockerfile
+    dockerfile: >-
+      FROM whitelisted-base-image.artifactory.corp.teranet.ca/rhel7:7.9-189
+
+      #RUN yum install -y iperf3
+
+      #RUN yum install traceroute -y
+
+      #RUN yum install iputils -y
+
+      ENTRYPOINT trap : TERM INT; printenv; sleep infinity & wait # Listen for
+      kill signals and exit quickly.
+  runPolicy: Serial
+status:
+  lastVersion: 1

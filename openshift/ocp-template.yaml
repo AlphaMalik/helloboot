@@ -1,0 +1,64 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  annotations:
+    description: DEV Template for PINService - BuildConfig, DeploymentConfig, Services, Route, Configmaps
+  name: pinservice-dev-template
+objects:
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    name: ${APP_NAME}
+    namespace: ${NAMESPACE_NAME}
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: '${APP_NAME}:latest'
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      git:
+        ref: ${BRANCH}
+        uri: ${SOURCE_REPOSITORY_URL}
+      type: Git
+    strategy:
+      sourceStrategy:
+        forcePull: true
+        from:
+          kind: DockerImage
+          name: whitelisted-base-image.artifactory.corp.teranet.ca/ubi8/openjdk-11:${BASE_IMAGE_TAG}
+        pullSecret:
+          name:  ${APP_IMAGE_SECRET}
+      type: Source
+    triggers: []
+parameters:
+  - name: APP_NAME
+    description: 'Application name'
+    value: 'helloboot-aro'
+    required: true
+  - name: NAMESPACE_NAME
+    description: 'Namespace name'
+    value: 'anis-malik-sandbox'
+    required: true
+  - name: SOURCE_REPOSITORY_URL
+    description: 'GIT location'
+    value: 'git@github.com:AlphaMalik/helloboot.git'
+    required: true
+  - name: BRANCH
+    description: 'GIT branch name'
+    value: 'development'
+    required: true
+  - name: APP_RELEASE_VERSION
+    description: Application release version
+    required: true
+    value: "1.0"
+  - name: APP_IMAGE_SECRET
+    description: 'User to push and pull PINService application image'
+    value: 'vas-whitelisted-auth'
+    required: true
+  - name: BASE_IMAGE_TAG
+    description: 'Version of the base image to be used'
+    value: '1.3-9.1614713191'
+    required: true

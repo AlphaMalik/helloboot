@@ -76,7 +76,7 @@ public class HelloBootController {
 
         try {
 
-            HttpGet request = new HttpGet("http://www.recipepuppy.com/api/?i=onions,garlic&q=omelet&p=3");
+            HttpGet request = new HttpGet("https://dev.teranet-onland.ets.net/wp-json/olforms/v1/forms?form_post_id=9498&start=2020-01-01&end=2020-01-31");
             CloseableHttpResponse response = httpClient.execute(request);
 
             try {

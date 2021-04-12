@@ -54,7 +54,7 @@ public class HelloBootController {
 			throw e;
 		}
         
-        return "Created socket"
+        return "Created socket";
     }
     
     @CrossOrigin(origins = "http://localhost:8080")

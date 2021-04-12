@@ -30,18 +30,29 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
 import org.apache.http.util.EntityUtils;
+import java.io.IOException;
+import java.net.ServerSocket;
 
 /**
  * @author kameshs
  */
 @RestController
 public class HelloBootController {
-
+    private ServerSocket liveNessProbeSocket;
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/whereami")
     public String whereami(@Value("${message.prefix}") String prefix) {
         String resp = String.format("%s from %s", prefix, System.getenv().getOrDefault("HOSTNAME", "localhost"));
         return resp;
+    }
+    
+    @GetMapping("/opensocket")
+    public String openSocket() throws Exception {
+        try {
+			liveNessProbeSocket = new ServerSocket(6066);
+		} catch (IOException e) {
+			throw e;
+		}
     }
     
     @CrossOrigin(origins = "http://localhost:8080")

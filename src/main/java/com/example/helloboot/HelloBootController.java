@@ -39,6 +39,26 @@ import java.net.ServerSocket;
 @RestController
 public class HelloBootController {
     private ServerSocket liveNessProbeSocket;
+    
+    class SocketAccepter implements Runnable {
+        private ServerSocket probeSocket;
+        
+        SocketAccepter(ServerSocket serverSocket){
+            this.probeSocket = serverSocket;
+        }
+        
+        @Override
+        public void run(){
+            try {
+                while (true) {
+                    
+                    this.probeSocket.accept();
+                }
+            } catch (Exception e) {
+            }
+        }
+    }
+    
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/whereami")
     public String whereami(@Value("${message.prefix}") String prefix) {
@@ -50,6 +70,8 @@ public class HelloBootController {
     public String openSocket() throws Exception {
         try {
 			liveNessProbeSocket = new ServerSocket(6066);
+            Thread newThread = new Thread(new SocketAccepter(liveNessProbeSocket));
+            newThread.run();  //should be start();
 		} catch (IOException e) {
 			throw e;
 		}

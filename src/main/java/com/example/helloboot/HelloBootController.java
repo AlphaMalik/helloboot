@@ -71,7 +71,7 @@ public class HelloBootController {
         try {
 			liveNessProbeSocket = new ServerSocket(6066);
             Thread newThread = new Thread(new SocketAccepter(liveNessProbeSocket));
-            newThread.run();  //should be start();
+            newThread.start();  //should be start();
 		} catch (IOException e) {
 			throw e;
 		}

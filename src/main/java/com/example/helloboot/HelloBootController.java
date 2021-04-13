@@ -51,7 +51,7 @@ public class HelloBootController {
         public void run(){
             try {
                 while (true) {
-                    
+                    System.out.println("Accepting request");
                     this.probeSocket.accept();
                 }
             } catch (Exception e) {
@@ -66,10 +66,10 @@ public class HelloBootController {
         return resp;
     }
     
-    @GetMapping("/opensocket")
-    public String openSocket() throws Exception {
+    @GetMapping("/opensocketanis")
+    public String openSocketAnis() throws Exception {
         try {
-			liveNessProbeSocket = new ServerSocket(6066);
+			liveNessProbeSocket = new ServerSocket(6088);
             Thread newThread = new Thread(new SocketAccepter(liveNessProbeSocket));
             newThread.start();  //should be start();
 		} catch (IOException e) {
@@ -78,6 +78,18 @@ public class HelloBootController {
         
         return "Created socket";
     }
+    
+    @GetMapping("/opensockettv")
+    public String openSocketTV() throws Exception {
+        try {
+			liveNessProbeSocket = new ServerSocket(6066);
+		} catch (IOException e) {
+			throw e;
+		}
+        
+        return "Created socket";
+    }
+
     
     @CrossOrigin(origins = "http://localhost:8080")
     @GetMapping("/loadfile")

@@ -76,7 +76,7 @@ public class HelloBootController {
 			throw e;
 		}
         
-        return "Created socket";
+        return "Created socket Anis style";
     }
     
     @GetMapping("/opensockettv")
@@ -87,7 +87,7 @@ public class HelloBootController {
 			throw e;
 		}
         
-        return "Created socket";
+        return "Created socket TV Style";
     }
 
     

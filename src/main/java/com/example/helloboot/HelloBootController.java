@@ -40,10 +40,10 @@ import java.net.ServerSocket;
 public class HelloBootController {
     private ServerSocket liveNessProbeSocket;
     
-    class SocketAccepter implements Runnable {
+    class SocketConnectionAccepter implements Runnable {
         private ServerSocket probeSocket;
         
-        SocketAccepter(ServerSocket serverSocket){
+        SocketConnectionAccepter(ServerSocket serverSocket){
             this.probeSocket = serverSocket;
         }
         
@@ -70,8 +70,8 @@ public class HelloBootController {
     public String openSocketAnis() throws Exception {
         try {
 			liveNessProbeSocket = new ServerSocket(6088);
-            Thread newThread = new Thread(new SocketAccepter(liveNessProbeSocket));
-            newThread.start();  //should be start();
+            Thread newThread = new Thread(new SocketConnectionAccepter(liveNessProbeSocket));
+            newThread.start();  
 		} catch (IOException e) {
 			throw e;
 		}

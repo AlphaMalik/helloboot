@@ -78,13 +78,10 @@ public class HelloBootController {
       public String setupJsch() throws JSchException {
             System.out.println("Entered setupJsch");
             JSch jsch = new JSch();
-            System.out.println("Private key location is" + privateKeyFile);
             jsch.addIdentity("/config/private/sshkey");
             Session jschSession = jsch.getSession("38.111.98.35", "writadmin_test_sftp", 2024);
             File file = new File("/config/known_hosts");
-            if (!file.exists()) {
-              logger.error("File does not exist: " + file);
-            }
+            
 
             java.util.Properties config = new java.util.Properties();
             config.put("StrictHostKeyChecking", "no");

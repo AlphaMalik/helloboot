@@ -78,7 +78,7 @@ public class HelloBootController {
             System.out.println("Entered setupJsch");
             JSch jsch = new JSch();
             jsch.addIdentity("/config/secret/ssh-privatekey");
-            com.jcraft.jsch.Session jschSession = jsch.getSession("38.111.98.35", "writadmin_test_sftp", 2024);
+            com.jcraft.jsch.Session jschSession = jsch.getSession("writadmin_test_sftp", "38.111.98.35", 2024);
             
 
             java.util.Properties config = new java.util.Properties();

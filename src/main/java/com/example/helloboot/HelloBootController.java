@@ -77,14 +77,14 @@ public class HelloBootController {
       public String setupJsch() throws JSchException {
             System.out.println("Entered setupJsch");
             JSch jsch = new JSch();
-            jsch.addIdentity("/config/private/sshkey");
+            jsch.addIdentity("/config/secret/ssh-privatekey");
             com.jcraft.jsch.Session jschSession = jsch.getSession("38.111.98.35", "writadmin_test_sftp", 2024);
             
 
             java.util.Properties config = new java.util.Properties();
             config.put("StrictHostKeyChecking", "no");
             jschSession.setConfig(config);
-            jsch.setKnownHosts("/config/known_hosts");
+            jsch.setKnownHosts("/config/known.hosts");
             jschSession.connect();
             ChannelSftp ret = (ChannelSftp) jschSession.openChannel("sftp");
             System.out.println("Exited setupJsch");

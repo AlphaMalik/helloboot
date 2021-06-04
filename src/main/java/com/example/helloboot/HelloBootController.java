@@ -45,7 +45,6 @@ import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
 /**
@@ -79,7 +78,7 @@ public class HelloBootController {
             System.out.println("Entered setupJsch");
             JSch jsch = new JSch();
             jsch.addIdentity("/config/private/sshkey");
-            Session jschSession = jsch.getSession("38.111.98.35", "writadmin_test_sftp", 2024);
+            com.jcraft.jsch.Session jschSession = jsch.getSession("38.111.98.35", "writadmin_test_sftp", 2024);
             
 
             java.util.Properties config = new java.util.Properties();

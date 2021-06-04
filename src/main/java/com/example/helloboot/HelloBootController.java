@@ -80,13 +80,12 @@ public class HelloBootController {
             JSch jsch = new JSch();
             jsch.addIdentity("/config/private/sshkey");
             Session jschSession = jsch.getSession("38.111.98.35", "writadmin_test_sftp", 2024);
-            File file = new File("/config/known_hosts");
             
 
             java.util.Properties config = new java.util.Properties();
             config.put("StrictHostKeyChecking", "no");
             jschSession.setConfig(config);
-            jsch.setKnownHosts(knownHostsFile);
+            jsch.setKnownHosts("/config/known_hosts");
             jschSession.connect();
             ChannelSftp ret = (ChannelSftp) jschSession.openChannel("sftp");
             System.out.println("Exited setupJsch");

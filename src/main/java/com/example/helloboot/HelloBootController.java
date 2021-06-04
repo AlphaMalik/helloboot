@@ -32,6 +32,21 @@ import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
 import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.io.File;
+import java.io.IOException;
+import java.util.Vector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Component;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.ChannelSftp.LsEntry;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpException;
 
 /**
  * @author kameshs
@@ -58,6 +73,28 @@ public class HelloBootController {
             }
         }
     }
+        
+      @GetMapping("/connecttoftpserver")
+      public String setupJsch() throws JSchException {
+            System.out.println("Entered setupJsch");
+            JSch jsch = new JSch();
+            System.out.println("Private key location is" + privateKeyFile);
+            jsch.addIdentity("/config/private/sshkey");
+            Session jschSession = jsch.getSession("38.111.98.35", "writadmin_test_sftp", 2024);
+            File file = new File("/config/known_hosts");
+            if (!file.exists()) {
+              logger.error("File does not exist: " + file);
+            }
+
+            java.util.Properties config = new java.util.Properties();
+            config.put("StrictHostKeyChecking", "no");
+            jschSession.setConfig(config);
+            jsch.setKnownHosts(knownHostsFile);
+            jschSession.connect();
+            ChannelSftp ret = (ChannelSftp) jschSession.openChannel("sftp");
+            System.out.println("Exited setupJsch");
+            return "Successfully connected";
+     }
     
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/whereami")
